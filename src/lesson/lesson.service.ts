@@ -11,10 +11,18 @@ export class LessonService {
     @InjectRepository(Lesson) private lessonRepository: Repository<Lesson>,
   ) {}
 
+  async getLessons(): Promise<Lesson[]> {
+    const lessons = await this.lessonRepository.find();
+    if (!lessons) {
+      throw new NotFoundException('There is no Lesson');
+    }
+    return lessons;
+  }
+
   async lesson(id: string) {
     const lesson = await this.lessonRepository.findOne({ where: { id } });
     if (!lesson) {
-      throw new NotFoundException("The lesson did'nt found");
+      throw new NotFoundException("The lesson did'not found");
     }
     return lesson;
   }

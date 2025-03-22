@@ -7,12 +7,17 @@ import { CreateLessonInput } from './inputs/create-lesson.input';
 export class LessonResolver {
   constructor(private lessonService: LessonService) {}
 
-  @Query((returns) => LessonType)
+  @Query(() => [LessonType])
+  async lessons() {
+    return await this.lessonService.getLessons();
+  }
+
+  @Query(() => LessonType)
   lesson(@Args('id') id: string) {
     return this.lessonService.lesson(id);
   }
 
-  @Mutation((returns) => LessonType)
+  @Mutation(() => LessonType)
   createLesson(
     @Args('createLessonInput') createLessonInput: CreateLessonInput,
   ) {
